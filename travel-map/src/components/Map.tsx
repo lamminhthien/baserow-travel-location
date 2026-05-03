@@ -96,6 +96,7 @@ function LocateControl({ onUserLocationChange }: { onUserLocationChange: (locati
     map.on('locationerror', handleLocationError);
 
     return () => {
+      control.remove();
       map.off('locationfound', handleLocationFound);
       map.off('locationerror', handleLocationError);
     };
