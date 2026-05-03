@@ -105,6 +105,33 @@ function LocateControl({ onUserLocationChange }: { onUserLocationChange: (locati
   return null;
 }
 
+function createUserIcon() {
+  return L.divIcon({
+    className: 'user-marker',
+    html: `
+      <div style="
+        background: #3b82f6;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 3px solid white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.5);
+        color: white;
+      ">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+      </div>
+    `,
+    iconSize: [40, 40],
+    iconAnchor: [20, 20],
+  });
+}
+
 function createCustomIcon(
   location: Location,
   userLocation: [number, number] | null,
@@ -205,6 +232,14 @@ export default function Map({ locations, selectedId, onSelectLocation, userLocat
 
       <LocateControl onUserLocationChange={onUserLocationChange} />
       <MapController center={center} />
+
+      {userLocation && (
+        <Marker
+          position={userLocation}
+          icon={createUserIcon()}
+          zIndexOffset={1000}
+        />
+      )}
 
       {locations.map((location) => {
         const position = getLocationPosition(location);
