@@ -28,9 +28,10 @@ export default function Sidebar({ locations, selectedId, onSelectLocation, userL
     <>
       {/* Floating "Show List" button — visible on mobile only when drawer is collapsed */}
       <button
-        className="sidebar-fab"
+        className={`sidebar-fab${mobileExpanded ? ' sidebar-fab--hidden' : ''}`}
         onClick={handleToggle}
         aria-label="Show locations list"
+        aria-hidden={mobileExpanded}
       >
         <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}

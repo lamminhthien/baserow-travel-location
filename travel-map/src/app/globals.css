@@ -135,6 +135,7 @@ h1, h2, h3, h4, h5, h6 {
 .location-card {
   background: var(--surface);
   border: 1px solid var(--border);
+  flex-shrink: 0; /* prevent flex compression clipping card content */
 }
 
 .price-badge {
@@ -300,6 +301,13 @@ h1, h2, h3, h4, h5, h6 {
 /* Floating action button — hidden on desktop */
 .sidebar-fab {
   display: none;
+}
+
+/* FAB hidden state when drawer is open */
+.sidebar-fab--hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-50%) scale(0.8) !important;
 }
 
 /* Drag handle — hidden on desktop */

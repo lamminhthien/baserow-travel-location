@@ -75,16 +75,33 @@ export const staticLocations: Location[] = [
   }
 ];
 
-export function formatPrice(price: number, currency: string): string {
+export function formatPrice(price: number, currency?: string): string {
   if (price === 0) return 'Free';
+
+  // Default to VND when currency is not provided or not recognized
   const symbols: Record<string, string> = {
     USD: '$',
     EUR: '€',
     GBP: '£',
     JPY: '¥',
-    IDR: 'Rp'
+    IDR: 'Rp',
+    VND: 'VND',
   };
-  return `${symbols[currency] || currency}${price}`;
+
+  const resolvedCurrency = (currency && symbols[currency]) ? currency : 'VND';
+
+  // Format VND with compact K notation for thousands
+  if (resolvedCurrency === 'VND') {
+    const formatted =
+      price >= 1_000_000
+        ? `${(price / 1_000_000).toFixed(price % 1_000_000 === 0 ? 0 : 1)}M`
+        : price >= 1_000
+        ? `${(price / 1_000).toFixed(price % 1_000 === 0 ? 0 : 1)}K`
+        : `${price}`;
+    return `${formatted} VND`;
+  }
+
+  return `${symbols[resolvedCurrency]}${price}`;
 }
 
 export function getGoogleMapsUrl(lat: number, lng: number): string {
