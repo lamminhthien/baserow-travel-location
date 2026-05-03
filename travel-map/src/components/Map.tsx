@@ -73,7 +73,7 @@ function MapController({ center }: { center: [number, number] | null }) {
 
   useEffect(() => {
     if (center) {
-      map.flyTo(center, 10, {
+      map.flyTo(center, 17, {
         duration: 1,
       });
     }
