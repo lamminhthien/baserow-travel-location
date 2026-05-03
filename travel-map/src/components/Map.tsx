@@ -5,6 +5,7 @@ import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import { Location } from '@/types/location';
 import { formatPrice } from '@/data/locations';
+import { getLocationPosition } from '@/utils/location';
 
 import 'leaflet/dist/leaflet.css';
 
@@ -84,7 +85,7 @@ function MapController({ center }: { center: [number, number] | null }) {
 export default function Map({ locations, selectedId, onSelectLocation }: MapProps) {
   const selectedLocation = locations.find(loc => loc.id === selectedId);
   const center: [number, number] | null = selectedLocation
-    ? [selectedLocation.lat, selectedLocation.lng]
+    ? getLocationPosition(selectedLocation)
     : null;
 
   return (
@@ -102,16 +103,7 @@ export default function Map({ locations, selectedId, onSelectLocation }: MapProp
       <MapController center={center} />
 
       {locations.map((location) => {
-        const isHaveGoogleMapLink = location.googleMapLinks && location.googleMapLinks.trim() !== '';
-        // Parse lat/lng from Google Maps URL, e.g.:
-        // https://www.google.com/maps/place/.../@12.2568613,109.1998973,15z/...
-        let position: [number, number] = [location.lat, location.lng];
-        if (isHaveGoogleMapLink) {
-          const match = location.googleMapLinks.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/);
-          if (match) {
-            position = [parseFloat(match[1]), parseFloat(match[2])];
-          }
-        }
+        const position = getLocationPosition(location);
 
         return (
           <Marker

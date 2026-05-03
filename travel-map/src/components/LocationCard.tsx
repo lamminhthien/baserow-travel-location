@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { Location } from '@/types/location';
 import { formatPrice, getGoogleMapsUrl, getGoogleReviewsUrl, getTikTokUrl } from '@/data/locations';
+import { getLocationPosition } from '@/utils/location';
 
 interface LocationCardProps {
   location: Location;
@@ -9,9 +10,11 @@ interface LocationCardProps {
 }
 
 export default function LocationCard({ location, isSelected, onSelect }: LocationCardProps) {
+  const [lat, lng] = getLocationPosition(location);
+
   const handleGoogleMaps = (e: React.MouseEvent) => {
     e.stopPropagation();
-    window.open(getGoogleMapsUrl(location.lat, location.lng), '_blank');
+    window.open(getGoogleMapsUrl(lat, lng), '_blank');
   };
 
   const handleGoogleReviews = (e: React.MouseEvent) => {
@@ -75,7 +78,7 @@ export default function LocationCard({ location, isSelected, onSelect }: Locatio
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
           </svg>
-          <span>{location.lat.toFixed(4)}, {location.lng.toFixed(4)}</span>
+          <span>{lat.toFixed(4)}, {lng.toFixed(4)}</span>
         </div>
 
         {/* Action Buttons */}
