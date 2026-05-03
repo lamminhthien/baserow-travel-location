@@ -63,6 +63,7 @@ export default function Home() {
         locations={locations}
         selectedId={selectedId}
         onSelectLocation={handleSelectLocation}
+        userLocation={userLocation}
       />
 
       <div className="map-wrapper">

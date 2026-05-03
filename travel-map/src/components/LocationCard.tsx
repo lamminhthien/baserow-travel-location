@@ -1,16 +1,29 @@
 /* eslint-disable @next/next/no-img-element */
 import { Location } from '@/types/location';
 import { formatPrice, getGoogleMapsUrl, getGoogleReviewsUrl, getTikTokUrl } from '@/data/locations';
-import { getLocationPosition } from '@/utils/location';
+import { getLocationPosition, calculateDistance, formatDistance } from '@/utils/location';
 
 interface LocationCardProps {
   location: Location;
   isSelected: boolean;
   onSelect: () => void;
+  userLocation: [number, number] | null;
 }
 
-export default function LocationCard({ location, isSelected, onSelect }: LocationCardProps) {
+export default function LocationCard({ location, isSelected, onSelect, userLocation }: LocationCardProps) {
   const [lat, lng] = getLocationPosition(location);
+
+  // Calculate distance if user location is available
+  let distanceText = '';
+  if (userLocation) {
+    const distance = calculateDistance(
+      userLocation[0],
+      userLocation[1],
+      lat,
+      lng
+    );
+    distanceText = formatDistance(distance);
+  }
 
   const handleGoogleMaps = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -72,13 +85,20 @@ export default function LocationCard({ location, isSelected, onSelect }: Locatio
           {location.description}
         </p>
 
-        {/* Coordinates */}
-        <div className="flex items-center gap-2 text-xs text-text-muted mb-3">
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-          </svg>
-          <span>{lat.toFixed(4)}, {lng.toFixed(4)}</span>
+        {/* Coordinates & Distance */}
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2 text-xs text-text-muted">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            <span>{lat.toFixed(4)}, {lng.toFixed(4)}</span>
+          </div>
+          {distanceText && (
+            <span className="distance-badge">
+              {distanceText}
+            </span>
+          )}
         </div>
 
         {/* Action Buttons */}

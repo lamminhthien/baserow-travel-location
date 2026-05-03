@@ -133,6 +133,9 @@ function createCustomIcon(
         transform-origin: center bottom;
       ">
         <div style="
+          display: inline-block;
+          width: max-content;
+          max-width: 220px;
           background: linear-gradient(135deg, #ff6b35 0%, #ff8c5a 100%);
           color: white;
           padding: 6px 10px;
@@ -140,12 +143,14 @@ function createCustomIcon(
           font-family: 'DM Sans', sans-serif;
           font-size: 12px;
           font-weight: 600;
-          white-space: nowrap;
+          line-height: 1.4;
+          white-space: normal;
+          word-break: break-word;
           box-shadow: 0 4px 12px rgba(255, 107, 53, 0.4);
           border: 2px solid white;
           position: relative;
         ">
-          ${distanceText}
+          ${distanceText} - ${location.name}
           <div style="
             position: absolute;
             bottom: -8px;

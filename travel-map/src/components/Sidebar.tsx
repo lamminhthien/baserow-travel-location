@@ -7,9 +7,10 @@ interface SidebarProps {
   locations: Location[];
   selectedId: string | null;
   onSelectLocation: (id: string) => void;
+  userLocation: [number, number] | null;
 }
 
-export default function Sidebar({ locations, selectedId, onSelectLocation }: SidebarProps) {
+export default function Sidebar({ locations, selectedId, onSelectLocation, userLocation }: SidebarProps) {
   return (
     <aside className="sidebar">
       {/* Header */}
@@ -43,6 +44,7 @@ export default function Sidebar({ locations, selectedId, onSelectLocation }: Sid
             location={location}
             isSelected={location.id === selectedId}
             onSelect={() => onSelectLocation(location.id)}
+            userLocation={userLocation}
           />
         ))}
       </div>
