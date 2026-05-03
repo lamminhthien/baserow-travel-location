@@ -85,18 +85,22 @@ export async function GET() {
       const data = await response.json();
 
       // Transform Baserow row data to our format
-      let locations: Location[] = data.results.map((row: Record<string, unknown>) => ({
-        id: String(row.id),
-        name: String(row.name || ''),
-        lat: Number(row.lat || row.latitude || 0),
-        lng: Number(row.lng || row.longitude || 0),
-        description: String(row.description || ''),
-        price: Number(row.price || 0),
-        currency: String(row.currency || 'USD'),
-        image: String(row.image || ''),
-        address: String(row.address || ''),
-        googleMapLinks: String(row.googleMapLinks || ''),
-      }));
+      let locations: Location[] = data.results
+        .map((row: Record<string, unknown>) => ({
+          id: String(row.id),
+          name: String(row.name || ''),
+          lat: Number(row.lat || row.latitude || 0),
+          lng: Number(row.lng || row.longitude || 0),
+          description: String(row.description || ''),
+          price: Number(row.price || 0),
+          currency: String(row.currency || 'USD'),
+          image: String(row.image || ''),
+          address: String(row.address || ''),
+          googleMapLinks: String(row.googleMapLinks || ''),
+          approved: Boolean(row.approved),
+        }))
+        // Only show rows that have been approved
+        .filter((location: Location) => location.approved === true);
 
       // Enrich with Open Graph data (resolves short links, fetches description + image)
       locations = await Promise.all(
