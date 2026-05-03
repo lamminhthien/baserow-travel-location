@@ -138,6 +138,7 @@ function createCustomIcon(
   isActive: boolean
 ) {
   const position = getLocationPosition(location);
+  const priceText = formatPrice(location.price, location.currency);
   let distanceText = formatPrice(location.price, location.currency);
 
   if (userLocation) {
@@ -178,7 +179,7 @@ function createCustomIcon(
           border: 2px solid white;
           position: relative;
         ">
-          ${distanceText} - ${location.name}
+          ${userLocation ? `${distanceText} - ${priceText} - ` : `${priceText} - `}${location.name}
           <div style="
             position: absolute;
             bottom: -8px;
