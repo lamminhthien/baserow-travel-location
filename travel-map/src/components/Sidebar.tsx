@@ -97,6 +97,21 @@ export default function Sidebar({ locations, selectedId, onSelectLocation, userL
           ))}
         </div>
 
+        {/* Add Location Button */}
+        <div className="sidebar-add-location">
+          <a
+            href="https://baserow.io/form/m4L4gWcFu2uk4Al6AHz4LJX5xVcJF3Zyj1CxVrU3lxk"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="add-location-btn"
+          >
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            </svg>
+            Add New Location
+          </a>
+        </div>
+
         {/* Footer */}
         <div className="sidebar-footer">
           <p className="text-xs text-text-muted">
