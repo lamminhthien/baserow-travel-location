@@ -60,9 +60,9 @@ async function enrichLocationWithOG(location: {
     // Use resolved URL if available, otherwise keep original
     googleMapLinks: ogResult?.resolvedUrl || googleMapLinks,
     // Use OG description if available, otherwise keep existing
-    description: ogResult?.description || location.description || '',
+    description: location.description || ogResult?.description || '',
     // Use OG image if available, otherwise keep existing
-    image: ogResult?.image || location.image || '',
+    image:  location.image || ogResult?.image || '',
     lat,
     lng,
   };
@@ -126,8 +126,8 @@ export async function GET() {
         return {
           ...location,
           googleMapLinks: enriched.googleMapLinks,
-          description: enriched.description,
-          image: enriched.image,
+          description: location.description || enriched.description,
+          image: location.image || enriched.image,
           lat: enriched.lat,
           lng: enriched.lng,
         };

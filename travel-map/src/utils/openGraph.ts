@@ -45,7 +45,7 @@ export async function scrapeOpenGraph(url: string): Promise<OpenGraphResult | nu
       return {
         resolvedUrl: requestUrl || url,
         title: ogTitle || '',
-        description: ogDescription || '',
+        description:'',
         image: getImageUrl(ogImage),
       };
     }
