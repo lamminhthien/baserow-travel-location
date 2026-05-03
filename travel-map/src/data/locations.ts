@@ -10,8 +10,9 @@ export const staticLocations: Location[] = [
     price: 28,
     currency: 'EUR',
     image: 'https://images.unsplash.com/photo-1511739001486-6bfe10ce65f4?w=800&q=80',
-    address: 'Champ de Mars, 5 Avenue Anatole France, 75007 Paris, France'
-  },
+    address: 'Champ de Mars, 5 Avenue Anatole France, 75007 Paris, France',
+    googleMapLinks: 'https://www.google.com/maps/place/Eiffel+Tower/@48.8584,2.2945,17z/data=!3m1!4b1!4m5!3m4!1s0x47e66fdfd1f1f1f1:0x1a1a1a1a1a1a1a1a!8m2!3d48.8584!4d2.2945'
+  },  
   {
     id: '2',
     name: 'Santorini Caldera',
@@ -21,7 +22,8 @@ export const staticLocations: Location[] = [
     price: 0,
     currency: 'EUR',
     image: 'https://images.unsplash.com/photo-1613395877344-13d4a8e0d49e?w=800&q=80',
-    address: 'Oia, Santorini 847 02, Greece'
+    address: 'Oia, Santorini 847 02, Greece',
+    googleMapLinks: 'https://www.google.com/maps/place/Qu%C3%A1n+C%C3%A0+Ph%C3%AA+La+Maison/@12.2568613,109.1998973,15z/data=!4m6!3m5!1s0x317067dd624c8f41:0xa1a9e45a1a5b5b68!8m2!3d12.2567821!4d109.1937689!16s%2Fg%2F11w84f_0ww?entry=ttu&g_ep=EgoyMDI2MDQyOS4wIKXMDSoASAFQAw%3D%3D'
   },
   {
     id: '3',
@@ -32,8 +34,9 @@ export const staticLocations: Location[] = [
     price: 54,
     currency: 'USD',
     image: 'https://images.unsplash.com/photo-1587595431973-160d0d94add1?w=800&q=80',
-    address: 'Machu Picchu, Cusco Region, Peru'
-  },
+    address: 'Machu Picchu, Cusco Region, Peru',
+    googleMapLinks: 'https://www.google.com/maps/place/Machu+Picchu/@-13.1631,-72.5450,17z/data=!3m1!4b1!4m5!3m4!1s0x91a9a1a1a1a1a1a1:0x1a1a1a1a1a1a1a1a!8m2!3d-13.1631!4d-72.5450'
+  },  
   {
     id: '4',
     name: 'Tokyo Tower',
@@ -43,7 +46,8 @@ export const staticLocations: Location[] = [
     price: 18,
     currency: 'USD',
     image: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=800&q=80',
-    address: '4 Chome-2-8 Shibakoen, Minato City, Tokyo 105-0011, Japan'
+    address: '4 Chome-2-8 Shibakoen, Minato City, Tokyo 105-0011, Japan',
+    googleMapLinks: 'https://www.google.com/maps/place/Tokyo+Tower/@35.6586,139.7454,17z/data=!3m1!4b1!4m5!3m4!1s0x60188b0b0b0b0b0b:0x1a1a1a1a1a1a1a1a!8m2!3d35.6586!4d139.7454'
   },
   {
     id: '5',
@@ -54,7 +58,8 @@ export const staticLocations: Location[] = [
     price: 35,
     currency: 'USD',
     image: 'https://images.unsplash.com/photo-1474044159687-1ee9f3a51722?w=800&q=80',
-    address: 'Grand Canyon National Park, AZ 86023, USA'
+    address: 'Grand Canyon National Park, AZ 86023, USA',
+    googleMapLinks: 'https://www.google.com/maps/place/Grand+Canyon+National+Park/@36.0544,-112.1401,17z/data=!3m1!4b1!4m5!3m4!1s0x873313f1a1a1a1a1:0x1a1a1a1a1a1a1a1a!8m2!3d36.0544!4d-112.1401'
   },
   {
     id: '6',
@@ -65,7 +70,8 @@ export const staticLocations: Location[] = [
     price: 15,
     currency: 'USD',
     image: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800&q=80',
-    address: 'Tegallalang, Ubud, Gianyar, Bali, Indonesia'
+    address: 'Tegallalang, Ubud, Gianyar, Bali, Indonesia',
+    googleMapLinks: 'https://www.google.com/maps/place/Tegallalang+Rice+Terraces/@-8.4218,115.3191,17z/data=!3m1!4b1!4m5!3m4!1s0x2dd240b1b1b1b1b1:0x1a1a1a1a1a1a1a1a!8m2!3d-8.4218!4d115.3191'
   }
 ];
 

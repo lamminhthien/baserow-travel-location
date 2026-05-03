@@ -34,7 +34,8 @@ export async function GET(
         price: Number(row.price || 0),
         currency: String(row.currency || 'USD'),
         image: String(row.image || ''),
-        address: String(row.address || '')
+        address: String(row.address || ''),
+        googleMapLinks: String(row.google_map_links || ''),
       };
 
       return NextResponse.json(location);

@@ -8,4 +8,5 @@ export interface Location {
   currency: string;
   image: string;
   address: string;
+  googleMapLinks: string;
 }
