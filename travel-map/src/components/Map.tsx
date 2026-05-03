@@ -1,11 +1,11 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import { Location } from '@/types/location';
 import { formatPrice } from '@/data/locations';
-import { getLocationPosition } from '@/utils/location';
+import { getLocationPosition, calculateDistance, formatDistance } from '@/utils/location';
 
 import 'leaflet/dist/leaflet.css';
 
@@ -21,10 +21,107 @@ interface MapProps {
   locations: Location[];
   selectedId: string | null;
   onSelectLocation: (id: string) => void;
+  userLocation: [number, number] | null;
+  onUserLocationChange: (location: [number, number]) => void;
 }
 
-function createCustomIcon(price: number, currency: string, isActive: boolean) {
-  const priceText = price === 0 ? 'Free' : formatPrice(price, currency);
+function LocateControl({ onUserLocationChange }: { onUserLocationChange: (location: [number, number]) => void }) {
+  const map = useMap();
+
+  useEffect(() => {
+    const locateBtn = L.Control.extend({
+      onAdd: function () {
+        const btn = L.DomUtil.create('button', 'leaflet-locate-btn');
+        btn.innerHTML = `
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>
+          </svg>
+        `;
+        btn.title = 'Find my location';
+        btn.style.cssText = `
+          width: 44px;
+          height: 44px;
+          border-radius: 50%;
+          background: white;
+          border: 2px solid #e5e7eb;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #374151;
+          transition: all 0.2s ease;
+          z-index: 1000;
+        `;
+
+        btn.onclick = function () {
+          map.locate({
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 0,
+          });
+        };
+
+        return btn;
+      },
+    });
+
+    const control = new locateBtn({ position: 'topright' });
+    control.addTo(map);
+
+    const handleLocationFound = (e: L.LeafletEvent) => {
+      const event = e as unknown as { latlng: { lat: number; lng: number } };
+      onUserLocationChange([event.latlng.lat, event.latlng.lng]);
+      map.flyTo([event.latlng.lat, event.latlng.lng], 15, { duration: 1 });
+    };
+
+    const handleLocationError = (e: L.LeafletEvent) => {
+      const event = e as unknown as { code: number; message: string };
+      console.error('Location error:', event.message);
+
+      let userMessage = 'Unable to get your location.';
+      if (event.code === 1) {
+        userMessage = 'Location permission denied. Please enable location access in your browser settings.';
+      } else if (event.code === 2) {
+        userMessage = 'Location services unavailable. Please enable GPS or Wi-Fi positioning.';
+      } else if (event.code === 3) {
+        userMessage = 'Location request timed out. Please try again.';
+      }
+
+      alert(userMessage);
+    };
+
+    map.on('locationfound', handleLocationFound);
+    map.on('locationerror', handleLocationError);
+
+    return () => {
+      map.off('locationfound', handleLocationFound);
+      map.off('locationerror', handleLocationError);
+    };
+  }, [map, onUserLocationChange]);
+
+  return null;
+}
+
+function createCustomIcon(
+  location: Location,
+  userLocation: [number, number] | null,
+  isActive: boolean
+) {
+  const position = getLocationPosition(location);
+  let distanceText = formatPrice(location.price, location.currency);
+
+  if (userLocation) {
+    const distance = calculateDistance(
+      userLocation[0],
+      userLocation[1],
+      position[0],
+      position[1]
+    );
+    distanceText = formatDistance(distance);
+  }
+
   const scale = isActive ? 1.15 : 1;
 
   return L.divIcon({
@@ -48,7 +145,7 @@ function createCustomIcon(price: number, currency: string, isActive: boolean) {
           border: 2px solid white;
           position: relative;
         ">
-          ${priceText}
+          ${distanceText}
           <div style="
             position: absolute;
             bottom: -8px;
@@ -82,7 +179,7 @@ function MapController({ center }: { center: [number, number] | null }) {
   return null;
 }
 
-export default function Map({ locations, selectedId, onSelectLocation }: MapProps) {
+export default function Map({ locations, selectedId, onSelectLocation, userLocation, onUserLocationChange }: MapProps) {
   const selectedLocation = locations.find(loc => loc.id === selectedId);
   const center: [number, number] | null = selectedLocation
     ? getLocationPosition(selectedLocation)
@@ -100,6 +197,7 @@ export default function Map({ locations, selectedId, onSelectLocation }: MapProp
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
 
+      <LocateControl onUserLocationChange={onUserLocationChange} />
       <MapController center={center} />
 
       {locations.map((location) => {
@@ -109,7 +207,7 @@ export default function Map({ locations, selectedId, onSelectLocation }: MapProp
           <Marker
             key={location.id}
             position={position}
-            icon={createCustomIcon(location.price, location.currency, location.id === selectedId)}
+            icon={createCustomIcon(location, userLocation, location.id === selectedId)}
             eventHandlers={{
               click: () => onSelectLocation(location.id),
             }}

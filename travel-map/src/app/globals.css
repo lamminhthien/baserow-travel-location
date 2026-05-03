@@ -184,6 +184,49 @@ h1, h2, h3, h4, h5, h6 {
   z-index: 1;
 }
 
+/* Location Button */
+.location-button {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 1000;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid var(--border);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+}
+
+.location-button:hover {
+  background: var(--background);
+  transform: scale(1.05);
+}
+
+.location-button:active {
+  transform: scale(0.95);
+}
+
+.location-error {
+  position: absolute;
+  top: 70px;
+  right: 16px;
+  z-index: 1000;
+  background: #fee2e2;
+  color: #dc2626;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  max-width: 200px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
 /* Map Loading */
 .map-loading,
 .loading-screen {

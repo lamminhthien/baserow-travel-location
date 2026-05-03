@@ -21,6 +21,7 @@ export default function Home() {
   const [locations, setLocations] = useState<Location[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
 
   useEffect(() => {
     // For demo, use static data. In production, fetch from API
@@ -31,21 +32,20 @@ export default function Home() {
         setLocations(data);
       } catch (error) {
         console.error('Failed to fetch locations:', error);
-      console.log("🚀 ~ fetchLocations ~ error:", error)
-
         setLocations(staticLocations);
       } finally {
         setLoading(false);
       }
     };
     fetchLocations();
-
-    // Using static data for demo
-    // setLocations(staticLocations);
   }, []);
 
   const handleSelectLocation = (id: string) => {
     setSelectedId(id);
+  };
+
+  const handleUserLocationChange = (location: [number, number]) => {
+    setUserLocation(location);
   };
 
   if (loading) {
@@ -70,6 +70,8 @@ export default function Home() {
           locations={locations}
           selectedId={selectedId}
           onSelectLocation={handleSelectLocation}
+          userLocation={userLocation}
+          onUserLocationChange={handleUserLocationChange}
         />
       </div>
     </main>
