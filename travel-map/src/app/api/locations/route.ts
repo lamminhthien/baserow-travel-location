@@ -14,7 +14,7 @@ export async function GET() {
   try {
     if (USE_BASEROW_API && BASEROW_API_URL && BASEROW_API_TOKEN) {
       // Fetch from Baserow API
-      const response = await fetch(`https://api.baserow.io/api/database/fields/table/${TRAVEL_LOCATIONS_TABLE_ID}/`, {
+      const response = await fetch(`https://api.baserow.io/api/database/rows/table/${TRAVEL_LOCATIONS_TABLE_ID}/?user_field_names=true`, {
         headers: {
           'Authorization': `Token ${BASEROW_API_TOKEN}`
         }
@@ -27,7 +27,7 @@ export async function GET() {
       const data = await response.json();
 
       // Transform Baserow row data to our format
-      const locations = data.map((row: Record<string, unknown>) => ({
+      const locations = data.results.map((row: Record<string, unknown>) => ({
         id: String(row.id),
         name: String(row.name || ''),
         lat: Number(row.lat || row.latitude || 0),
