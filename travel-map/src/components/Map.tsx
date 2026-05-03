@@ -101,16 +101,29 @@ export default function Map({ locations, selectedId, onSelectLocation }: MapProp
 
       <MapController center={center} />
 
-      {locations.map((location) => (
-        <Marker
-          key={location.id}
-          position={[location.lat, location.lng]}
-          icon={createCustomIcon(location.price, location.currency, location.id === selectedId)}
-          eventHandlers={{
-            click: () => onSelectLocation(location.id),
-          }}
-        />
-      ))}
+      {locations.map((location) => {
+        const isUseGoogleMaps = location.googleMapLinks && location.googleMapLinks.trim() !== '';
+        // Parse lat/lng from Google Maps URL, e.g.:
+        // https://www.google.com/maps/place/.../@12.2568613,109.1998973,15z/...
+        let position: [number, number] = [location.lat, location.lng];
+        if (isUseGoogleMaps) {
+          const match = location.googleMapLinks.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/);
+          if (match) {
+            position = [parseFloat(match[1]), parseFloat(match[2])];
+          }
+        }
+
+        return (
+          <Marker
+            key={location.id}
+            position={position}
+            icon={createCustomIcon(location.price, location.currency, location.id === selectedId)}
+            eventHandlers={{
+              click: () => onSelectLocation(location.id),
+            }}
+          />
+        );
+      })}
     </MapContainer>
   );
 }
