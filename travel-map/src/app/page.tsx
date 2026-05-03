@@ -24,23 +24,24 @@ export default function Home() {
 
   useEffect(() => {
     // For demo, use static data. In production, fetch from API
-    // const fetchLocations = async () => {
-    //   try {
-    //     const response = await fetch('/api/locations');
-    //     const data = await response.json();
-    //     setLocations(data);
-    //   } catch (error) {
-    //     console.error('Failed to fetch locations:', error);
-    //     setLocations(staticLocations);
-    //   } finally {
-    //     setLoading(false);
-    //   }
-    // };
-    // fetchLocations();
+    const fetchLocations = async () => {
+      try {
+        const response = await fetch('/api/locations');
+        const data = await response.json();
+        setLocations(data);
+      } catch (error) {
+        console.error('Failed to fetch locations:', error);
+      console.log("🚀 ~ fetchLocations ~ error:", error)
+
+        setLocations(staticLocations);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchLocations();
 
     // Using static data for demo
-    setLocations(staticLocations);
-    setLoading(false);
+    // setLocations(staticLocations);
   }, []);
 
   const handleSelectLocation = (id: string) => {
