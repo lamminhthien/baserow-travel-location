@@ -12,7 +12,7 @@ export const staticLocations: Location[] = [
     image: 'https://images.unsplash.com/photo-1511739001486-6bfe10ce65f4?w=800&q=80',
     address: 'Champ de Mars, 5 Avenue Anatole France, 75007 Paris, France',
     googleMapLinks: 'https://www.google.com/maps/place/Eiffel+Tower/@48.8584,2.2945,17z/data=!3m1!4b1!4m5!3m4!1s0x47e66fdfd1f1f1f1:0x1a1a1a1a1a1a1a1a!8m2!3d48.8584!4d2.2945'
-  },  
+  },
   {
     id: '2',
     name: 'Santorini Caldera',

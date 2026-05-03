@@ -1,7 +1,5 @@
 import { NextResponse } from 'next/server';
 import { staticLocations } from '@/data/locations';
-import { json } from 'stream/consumers';
-
 // Toggle this to switch between static data and Baserow API
 const USE_BASEROW_API = process.env.USE_BASEROW_API === 'true';
 const BASEROW_API_URL = process.env.BASEROW_API_URL || '';
@@ -48,7 +46,7 @@ export async function GET() {
   } catch (error) {
     console.error('Error fetching locations:', error);
     return NextResponse.json(
-      { error: 'Failed to fetch locations' },
+      { error: 'Failed to fetch locations', errorDetails: String(error) },
       { status: 500 }
     );
   }

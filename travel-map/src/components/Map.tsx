@@ -102,11 +102,11 @@ export default function Map({ locations, selectedId, onSelectLocation }: MapProp
       <MapController center={center} />
 
       {locations.map((location) => {
-        const isUseGoogleMaps = location.googleMapLinks && location.googleMapLinks.trim() !== '';
+        const isHaveGoogleMapLink = location.googleMapLinks && location.googleMapLinks.trim() !== '';
         // Parse lat/lng from Google Maps URL, e.g.:
         // https://www.google.com/maps/place/.../@12.2568613,109.1998973,15z/...
         let position: [number, number] = [location.lat, location.lng];
-        if (isUseGoogleMaps) {
+        if (isHaveGoogleMapLink) {
           const match = location.googleMapLinks.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/);
           if (match) {
             position = [parseFloat(match[1]), parseFloat(match[2])];

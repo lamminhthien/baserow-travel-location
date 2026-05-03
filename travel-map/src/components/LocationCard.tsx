@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { Location } from '@/types/location';
 import { formatPrice, getGoogleMapsUrl, getGoogleReviewsUrl, getTikTokUrl } from '@/data/locations';
 
@@ -48,7 +49,7 @@ export default function LocationCard({ location, isSelected, onSelect }: Locatio
           alt={location.name}
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent" />
 
         {/* Price Badge */}
         <div className="absolute top-3 right-3">
