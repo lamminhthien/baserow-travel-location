@@ -296,6 +296,26 @@ h1, h2, h3, h4, h5, h6 {
   border: 1px solid var(--border);
 }
 
+/* Floating action button — hidden on desktop */
+.sidebar-fab {
+  display: none;
+}
+
+/* Drag handle — hidden on desktop */
+.sidebar-drag-handle {
+  display: none;
+}
+
+/* Close button inside header — hidden on desktop */
+.sidebar-close-btn {
+  display: none;
+}
+
+/* Backdrop — hidden on desktop */
+.sidebar-backdrop {
+  display: none;
+}
+
 /* Line clamp utility */
 .line-clamp-2 {
   display: -webkit-box;
@@ -304,7 +324,9 @@ h1, h2, h3, h4, h5, h6 {
   overflow: hidden;
 }
 
-/* Responsive Design */
+/* =======================================================
+   RESPONSIVE: Tablet
+======================================================= */
 @media (max-width: 1024px) {
   .sidebar {
     width: 320px;
@@ -312,38 +334,148 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+/* =======================================================
+   RESPONSIVE: Mobile — Bottom Sheet Drawer
+======================================================= */
 @media (max-width: 768px) {
+  /* Map fills the whole screen */
   .app-container {
-    flex-direction: column-reverse;
-  }
-
-  .sidebar {
-    width: 100%;
-    min-width: 100%;
-    height: 45%;
-    border-right: none;
-    border-top: 1px solid var(--border);
+    flex-direction: column;
+    position: relative;
   }
 
   .map-wrapper {
-    height: 55%;
+    flex: 1;
+    height: 100%;
+    width: 100%;
   }
 
+  /* ---- Sidebar becomes a bottom-sheet ---- */
+  .sidebar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    min-width: 100%;
+    /* Peek height: just the drag handle visible when collapsed */
+    height: 72px;
+    max-height: 80vh;
+    z-index: 900;
+    border-right: none;
+    border-top: 1px solid var(--border);
+    border-radius: 20px 20px 0 0;
+    box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.5);
+    transform: translateY(calc(100% - 72px));
+    transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+    overflow: hidden;
+  }
+
+  .sidebar--open {
+    transform: translateY(0);
+    height: 80vh;
+    overflow-y: auto;
+  }
+
+  /* Drag handle pill — show on mobile */
+  .sidebar-drag-handle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 24px;
+    cursor: pointer;
+    flex-shrink: 0;
+    padding-top: 8px;
+  }
+
+  .drag-pill {
+    width: 40px;
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+  }
+
+  /* Close × button — show on mobile */
+  .sidebar-close-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--surface-elevated);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background 0.2s ease;
+  }
+
+  .sidebar-close-btn:hover {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+  }
+
+  /* Floating action button — show on mobile */
+  .sidebar-fab {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: fixed;
+    bottom: 88px; /* above the peeking sidebar */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 950;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 24px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    box-shadow: 0 4px 20px rgba(255, 107, 53, 0.5);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  }
+
+  .sidebar-fab:hover {
+    transform: translateX(-50%) translateY(-2px);
+    box-shadow: 0 6px 24px rgba(255, 107, 53, 0.65);
+  }
+
+  .sidebar-fab:active {
+    transform: translateX(-50%) scale(0.97);
+  }
+
+  /* Backdrop */
+  .sidebar-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 850;
+    backdrop-filter: blur(2px);
+    animation: fadeIn 0.2s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  /* Location list stays vertical inside the sheet */
   .location-list {
-    flex-direction: row;
-    overflow-x: auto;
-    overflow-y: hidden;
-    padding: 12px;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 12px 16px;
     gap: 12px;
   }
 
   .location-list::-webkit-scrollbar {
-    height: 6px;
-    width: auto;
-  }
-
-  .location-card {
-    min-width: 280px;
-    flex-shrink: 0;
+    height: auto;
+    width: 6px;
   }
 }
