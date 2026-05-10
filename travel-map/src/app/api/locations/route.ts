@@ -111,10 +111,7 @@ export async function GET() {
           image: String(row.image || ''),
           address: String(row.address || ''),
           googleMapLinks: String(row.googleMapLinks || ''),
-          approved: Boolean(row.approved),
-        }))
-        // Only show rows that have been approved
-        .filter((location: Location) => location.approved === true);
+        }));
 
       // Enrich with Open Graph data (resolves short links, fetches description + image)
       locations = await Promise.all(

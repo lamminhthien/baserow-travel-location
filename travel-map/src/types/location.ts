@@ -9,5 +9,4 @@ export interface Location {
   image: string;
   address: string;
   googleMapLinks: string;
-  approved?: boolean;
 }
