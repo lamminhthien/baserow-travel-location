@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { Location } from '@/types/location';
 import LocationCard from './LocationCard';
 
@@ -13,6 +13,17 @@ interface SidebarProps {
 
 export default function Sidebar({ locations, selectedId, onSelectLocation, userLocation }: SidebarProps) {
   const [mobileExpanded, setMobileExpanded] = useState(false);
+  const cardRefs = useRef<Map<string, HTMLDivElement>>(new Map());
+
+  // Scroll to selected card when selectedId changes
+  useEffect(() => {
+    if (selectedId) {
+      const cardElement = cardRefs.current.get(selectedId);
+      if (cardElement) {
+        cardElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }
+  }, [selectedId]);
 
   const handleToggle = useCallback(() => {
     setMobileExpanded(prev => !prev);
@@ -93,6 +104,10 @@ export default function Sidebar({ locations, selectedId, onSelectLocation, userL
               isSelected={location.id === selectedId}
               onSelect={() => handleSelect(location.id)}
               userLocation={userLocation}
+              cardRef={(el) => {
+                if (el) cardRefs.current.set(location.id, el);
+                else cardRefs.current.delete(location.id);
+              }}
             />
           ))}
         </div>

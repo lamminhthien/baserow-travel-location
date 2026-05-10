@@ -8,9 +8,10 @@ interface LocationCardProps {
   isSelected: boolean;
   onSelect: () => void;
   userLocation: [number, number] | null;
+  cardRef?: (el: HTMLDivElement | null) => void;
 }
 
-export default function LocationCard({ location, isSelected, onSelect, userLocation }: LocationCardProps) {
+export default function LocationCard({ location, isSelected, onSelect, userLocation, cardRef }: LocationCardProps) {
   const [lat, lng] = getLocationPosition(location);
 
   // Calculate distance if user location is available
@@ -27,7 +28,7 @@ export default function LocationCard({ location, isSelected, onSelect, userLocat
 
   const handleGoogleMaps = (e: React.MouseEvent) => {
     e.stopPropagation();
-    window.open(getGoogleMapsUrl(lat, lng), '_blank');
+    window.open(location.googleMapLinks, '_blank');
   };
 
   const handleGoogleReviews = (e: React.MouseEvent) => {
@@ -42,6 +43,7 @@ export default function LocationCard({ location, isSelected, onSelect, userLocat
 
   return (
     <div
+      ref={cardRef}
       onClick={onSelect}
       className={`
         location-card
