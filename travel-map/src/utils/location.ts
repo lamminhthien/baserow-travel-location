@@ -1,3 +1,4 @@
+import type { Location } from "../types/location";
 /**
  * Calculates distance between two coordinates using the Haversine formula.
  * @param lat1 - Latitude of first point
@@ -72,7 +73,10 @@ export function extractNameFromGoogleMapsLink(googleMapLink: string): string {
   return '';
 }
 
-export function extractImageFromGoogleMapsLink(mapsUrl: string, options = {}) {
+export function extractImageFromGoogleMapsLink(
+  mapsUrl: string,
+  options: { width?: number; height?: number; quality?: string } = {}
+) {
   const {
     width = 4096,
     height = 4096,
@@ -111,7 +115,7 @@ export function extractImageFromGoogleMapsLink(mapsUrl: string, options = {}) {
  * @param location - The location object
  * @returns [lat, lng] tuple, preferring coordinates from googleMapLinks if available
  */
-export function getLocationPosition(location: { lat: number; lng: number; googleMapLinks?: string }): [number, number] {
+export function getLocationPosition(location: Pick<Location, 'lat' | 'lng' | 'googleMapLinks'>): [number, number] {
   const coords = extractCoordinatesFromGoogleMapsLink(location.googleMapLinks || '');
   return coords || [location.lat, location.lng];
 }
