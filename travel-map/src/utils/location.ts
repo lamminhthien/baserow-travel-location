@@ -59,6 +59,19 @@ export function extractCoordinatesFromGoogleMapsLink(googleMapLink: string): [nu
   return null;
 }
 
+export function extractNameFromGoogleMapsLink(googleMapLink: string): string {
+  if (!googleMapLink || googleMapLink.trim() === '') {
+    return '';
+  }
+
+  const match = googleMapLink.match(/\/place\/([^\/]+)\//);
+  if (match) {
+    return decodeURIComponent(match[1].replace(/\+/g, ' '));
+  }
+
+  return '';
+}
+
 /**
  * Gets the position (lat/lng) for a location,优先使用 Google Maps URL 中的坐标
  *
