@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { staticLocations } from '@/data/locations';
 import type { Location } from '@/types/location';
 import { scrapeOpenGraph, type OpenGraphResult } from '@/utils/openGraph';
-import { extractCoordinatesFromGoogleMapsLink, extractNameFromGoogleMapsLink } from '@/utils/location';
+import { extractCoordinatesFromGoogleMapsLink, extractImageFromGoogleMapsLink, extractNameFromGoogleMapsLink } from '@/utils/location';
 
 // Toggle this to switch between static data and Baserow API
 const USE_BASEROW_API = process.env.USE_BASEROW_API === 'true';
@@ -61,6 +61,11 @@ async function enrichLocationWithOG(location: {
     const name = extractNameFromGoogleMapsLink(ogResult.resolvedUrl);
     if (name) {
       location.name = name;
+    }
+
+    const image = extractImageFromGoogleMapsLink(ogResult.resolvedUrl, { width: 800, height: 600, quality: '-rw' })[0];
+    if (image) {
+      location.image = image;
     }
   }
 

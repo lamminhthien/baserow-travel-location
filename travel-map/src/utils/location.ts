@@ -72,6 +72,39 @@ export function extractNameFromGoogleMapsLink(googleMapLink: string): string {
   return '';
 }
 
+export function extractImageFromGoogleMapsLink(mapsUrl: string, options = {}) {
+  const {
+    width = 4096,
+    height = 4096,
+    quality = '-k-no'   // '-k-no' = high quality no crop
+                        // '-rw'   = responsive width
+                        // ''      = none
+  } = options;
+
+  let decoded;
+  try { decoded = decodeURIComponent(mapsUrl); }
+  catch { decoded = mapsUrl; }
+
+  // Match all lh*.googleusercontent.com URLs
+  const regex = /https:\/\/lh\d+\.googleusercontent\.com\/[^\s!&"')<>\]]+/g;
+  const matches = decoded.match(regex) ?? [];
+
+  return matches.map(raw => {
+    // Strip trailing junk chars
+    let url = raw.replace(/[!&"')<>\]]+$/, '');
+
+    // Remove existing size+quality params (=wNNN-hNNN-... or trailing =s...)
+    url = url
+      .replace(/=w\d+-h\d+[^&\s]*/g, '')  // =w203-h255-k-no
+      .replace(/=s\d+[^&\s]*/g, '')        // =s800
+      .replace(/=+$/, '');                  // trailing =
+
+    // Append HD params
+    url = `${url}=w${width}-h${height}${quality}`;
+
+    return url;
+  });
+}
 /**
  * Gets the position (lat/lng) for a location,优先使用 Google Maps URL 中的坐标
  *
