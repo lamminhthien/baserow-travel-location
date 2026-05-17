@@ -179,7 +179,7 @@ function createCustomIcon(
           border: 2px solid white;
           position: relative;
         ">
-          ${userLocation ? `${distanceText} - ${priceText} - ` : `${priceText} - `}${location.name}
+          ${userLocation ? `${distanceText} 🌎 - ${priceText} 💵 - ` : `${priceText} 💵 - `}${location.name}
           <div style="
             position: absolute;
             bottom: -8px;
